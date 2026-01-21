@@ -21,7 +21,7 @@ export class SettingsComponent implements OnInit {
   saving = false;
   submitted = false;
   private _profileTypeDefault = "UPDATE";
-  private _defaultFields = [this.fb.group({header: 'primary_id', fieldName: 'primary_id', default: ''})];
+  private _defaultFields = [this.fb.group({header: 'primary_id', fieldName: 'primary_id', default: '', language: ''})];
   private _selectedProfile: FormGroup;
   get selectedProfile() {
     return this._selectedProfile;
@@ -66,6 +66,10 @@ export class SettingsComponent implements OnInit {
       if (!isEmptyObject(settings.value)) {
         (settings.get('profiles') as FormArray).controls.forEach((profile: FormGroup)=>{
           if (!profile.get('profileType')) profile.addControl('profileType', new FormControl(this._profileTypeDefault));
+          // Add language field to existing fields that don't have it
+          (profile.get('fields') as FormArray).controls.forEach((field: FormGroup) => {
+            if (!field.get('language')) field.addControl('language', new FormControl(''));
+          });
         })
         this.form = settings;
       }

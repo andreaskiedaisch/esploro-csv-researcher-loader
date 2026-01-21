@@ -18,7 +18,8 @@ export enum ProfileType {
 export interface Field {
   header: string,
   default: string,
-  fieldName: string
+  fieldName: string,
+  language?: string
 }
 
 export const validateProfiles = (profiles: Profile[]) => {

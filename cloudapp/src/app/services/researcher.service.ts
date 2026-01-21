@@ -53,20 +53,126 @@ export class ResearcherService {
 
   mapResearcher = (parsedResearcher: any, selectedProfile: Profile) => {
     const arrayIndicator = new RegExp(/\[\d*\]/);
+
+    /**
+     * Get the highest parent array index for a given base path
+     * @param parentBase Base path without array notation (e.g., "researcher.researcher_webpage")
+     * @param mappedFields Current mapped fields object
+     * @returns Highest index found, or -1 if none exist
+     */
+    const getMaxParentIndex = (parentBase: string, mappedFields: any): number => {
+      const parentArrayFields = Object.keys(mappedFields).filter(k => k.startsWith(parentBase + '['));
+      const parentIndices = parentArrayFields.map(k => {
+        const match = k.match(new RegExp(`^${parentBase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\[(\\d+)\\]`));
+        return match ? parseInt(match[1]) : -1;
+      });
+      return parentIndices.length > 0 ? Math.max(...parentIndices) : -1;
+    };
+
+    /**
+     * Get existing languages for a parent array item's multilingual field
+     * @param parentPath Full path to parent item's multilingual field (e.g., "researcher.researcher_webpage[0].title_multilingual")
+     * @param mappedFields Current mapped fields object
+     * @returns Array of language codes already present
+     */
+    const getExistingLanguages = (parentPath: string, mappedFields: any): string[] => {
+      return Object.keys(mappedFields)
+        .filter(k => k.startsWith(parentPath + '[') && k.endsWith('.language'))
+        .map(k => mappedFields[k]);
+    };
+
+    /**
+     * Find the index of an existing language in a multilingual array, or -1 if not found
+     * @param parentPath Full path to parent item's multilingual field
+     * @param language Language code to search for
+     * @param mappedFields Current mapped fields object
+     * @returns Index of the language, or -1 if not found
+     */
+    const findLanguageIndex = (parentPath: string, language: string, mappedFields: any): number => {
+      const languageKeys = Object.keys(mappedFields)
+        .filter(k => k.startsWith(parentPath + '[') && k.endsWith('.language'));
+      
+      for (const key of languageKeys) {
+        if (mappedFields[key] === language) {
+          const match = key.match(/\[(\d+)\]\.language$/);
+          return match ? parseInt(match[1]) : -1;
+        }
+      }
+      return -1;
+    };
+
     const mapCsvToProfileFields = (parsedResearcher: any, selectedProfile: Profile) => {
+      // Track multilingual indices for fields without parent arrays
+      const multilingualIndices: { [baseField: string]: number } = {};
+      
       return Object.entries<string>(parsedResearcher).reduce((mappedFields, [csvKey, csvValue]) => {
         const profileField = selectedProfile.fields.find(pf => pf.header === csvKey);
         if (!profileField?.fieldName) return mappedFields;
 
         let fieldName = profileField.fieldName;
         const isArrayField = arrayIndicator.test(fieldName);
+        const isMultilingualField = fieldName.includes('_multilingual');
 
         if (isArrayField) {
-          const nextIndex = Object.keys(mappedFields)
-            .filter(k => k.replace(arrayIndicator, '[]') === fieldName)
-            .length;
-
-          fieldName = fieldName.replace(arrayIndicator, `[${nextIndex}]`);
+          const baseFieldName = fieldName.replace(arrayIndicator, '[]');
+          
+          // For multilingual fields, handle them specially to group by language
+          if (isMultilingualField && profileField.language) {
+            // Match patterns with parent array and multilingual array:
+            // researcher.researcher_webpage[].title_multilingual[].value
+            const pattern = fieldName.match(/(.*?)(\[\])(\..*_multilingual)(\[\])(\.value|\.values)/);
+            
+            if (pattern) {
+              // Has parent array - add to most recent parent item
+              const parentBase = pattern[1];
+              const multilingualPath = pattern[3];
+              const valuePath = pattern[5];
+              
+              const maxParentIndex = getMaxParentIndex(parentBase, mappedFields);
+              const parentIndex = maxParentIndex >= 0 ? maxParentIndex : 0;
+              
+              // Check if this language already exists in the current parent item
+              const existingParentPath = `${parentBase}[${parentIndex}]${multilingualPath}`;
+              const existingLangIndex = findLanguageIndex(existingParentPath, profileField.language, mappedFields);
+              
+              let multilingualIndex: number;
+              if (existingLangIndex >= 0) {
+                // Language exists - override it
+                multilingualIndex = existingLangIndex;
+              } else {
+                // New language - add it
+                const existingLanguages = getExistingLanguages(existingParentPath, mappedFields);
+                multilingualIndex = existingLanguages.length;
+              }
+              
+              fieldName = `${parentBase}[${parentIndex}]${multilingualPath}[${multilingualIndex}]${valuePath}`;
+              const languageFieldName = `${parentBase}[${parentIndex}]${multilingualPath}[${multilingualIndex}].language`;
+              mappedFields[languageFieldName] = profileField.language;
+            } else {
+              // Pattern without parent array: researcher.display_title_multilingual[].value
+              const simplePattern = fieldName.match(/(.*)(\..*_multilingual)(\[\])(\.value|\.values)/);
+              if (simplePattern) {
+                const basePath = `${simplePattern[1]}${simplePattern[2]}`;
+                
+                if (multilingualIndices[basePath] === undefined) {
+                  multilingualIndices[basePath] = 0;
+                }
+                
+                const multilingualIndex = multilingualIndices[basePath];
+                fieldName = `${simplePattern[1]}${simplePattern[2]}[${multilingualIndex}]${simplePattern[4]}`;
+                const languageFieldName = `${simplePattern[1]}${simplePattern[2]}[${multilingualIndex}].language`;
+                mappedFields[languageFieldName] = profileField.language;
+                
+                multilingualIndices[basePath]++;
+              }
+            }
+          } else {
+            // Non-multilingual array field - use original counting logic per field type
+            const nextIndex = Object.keys(mappedFields)
+              .filter(k => k.replace(arrayIndicator, '[]') === baseFieldName)
+              .length;
+            fieldName = fieldName.replace(arrayIndicator, `[${nextIndex}]`);
+          }
         }
 
         if (isArrayField || csvValue) {
