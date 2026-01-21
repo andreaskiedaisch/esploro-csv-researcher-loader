@@ -32,6 +32,7 @@
 		"FieldMapping": "Field Mapping",
 		"FieldName": "Field Name",
 		"Header": "Header",
+		"Language": "Language",
 		"MandatoryFieldAdded": "Added mandatory field '{field}' to field mapping.",
 		"MandatoryFieldAlreadyExisting": "Mandatory field '{field}' has already been added to field mapping.",
 		"ProfileType": "Profile Type",

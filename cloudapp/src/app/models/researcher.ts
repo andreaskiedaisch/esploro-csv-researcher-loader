@@ -1,3 +1,9 @@
+interface MultilingualField {
+    language: string;
+    value?: string;
+    values?: string[];
+}
+
 interface OrganizationAffiliation {
     organization_code: string;
     start_date?: string;
@@ -7,6 +13,7 @@ interface OrganizationAffiliation {
         desc?: string;
     };
     title?: string;
+    title_multilingual?: MultilingualField[];
     positionOrder?: number;
 }
 
@@ -20,6 +27,7 @@ export interface Researcher {
             desc?: string;
         };
         display_title?: string;
+        display_title_multilingual?: MultilingualField[];
         portal_profile?: {
             value: string;
             desc?: string;
@@ -44,15 +52,18 @@ export interface Researcher {
             value: string;
         }[];
         researcher_description?: {
-            description: string;
+            description?: string;
+            description_multilingual?: MultilingualField[];
         }[];
         researcher_education?: {
             organization_code: string;
             degree?: string;
             field_of_study?: string;
+            field_of_study_multilingual?: MultilingualField[];
             from_year?: string;
             to_year?: string;
             additional_details?: string;
+            additional_details_multilingual?: MultilingualField[];
         }[];
         researcher_engagement_type?: {
             researcher_engagement: {
@@ -64,11 +75,13 @@ export interface Researcher {
         researcher_honor?: {
             organization_code: string;
             title?: string;
+            title_multilingual?: MultilingualField[];
             time_period?: string;
         }[];
         researcher_keyword?: {
             value: string;
         }[];
+        researcher_keyword_multilingual?: MultilingualField[];
         researcher_language?: {
             value: string;
         }[];
@@ -85,6 +98,8 @@ export interface Researcher {
             url: string;
             type: string;
             title?: string;
+            title_multilingual?: MultilingualField[];
+            description_multilingual?: MultilingualField[];
         }[];
         researcher_organization_affiliation?: OrganizationAffiliation[];
         researcher_previous_organization_affiliation?: OrganizationAffiliation[];

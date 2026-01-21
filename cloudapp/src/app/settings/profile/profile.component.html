@@ -46,6 +46,20 @@
         </mat-form-field>
       </mat-cell>
     </ng-container>
+
+    <!-- Language Column -->
+    <ng-container matColumnDef="language" *ngIf="isMultilingualEnabled">
+      <mat-header-cell *matHeaderCellDef translate>Profile.Language</mat-header-cell>
+      <mat-cell *matCellDef="let field" [formGroup]="field">
+        <mat-form-field appearance="fill" *ngIf="isFieldMultilingual(field.value.fieldName)">
+          <mat-select formControlName="language" [placeholder]="'Profile.Language' | translate">
+            <mat-option *ngFor="let lang of (languages$ | async)?.row" [value]="lang.code">
+              {{ lang.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
   
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
