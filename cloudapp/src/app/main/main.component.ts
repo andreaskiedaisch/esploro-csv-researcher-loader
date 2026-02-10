@@ -85,7 +85,8 @@ export class MainComponent implements OnInit {
     this.papa.parse(this.files[0], {
       header: true,
       complete: this.parsedResearchers,
-      skipEmptyLines: 'greedy'
+      skipEmptyLines: 'greedy',
+      encoding: 'UTF-8'
     });
   }
 
