@@ -1,0 +1,350 @@
+[
+  {
+    "name": "Complete Multilingual Profile",
+    "profileType": "UPDATE",
+    "fields": [
+      {
+        "header": "primary_id",
+        "fieldName": "primary_id",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "display_title_eng",
+        "fieldName": "researcher.display_title_multilingual[].value",
+        "default": "",
+        "language": "eng"
+      },
+      {
+        "header": "display_title_spa",
+        "fieldName": "researcher.display_title_multilingual[].value",
+        "default": "",
+        "language": "spa"
+      },
+      {
+        "header": "display_title_fre",
+        "fieldName": "researcher.display_title_multilingual[].value",
+        "default": "",
+        "language": "fre"
+      },
+      {
+        "header": "description_eng",
+        "fieldName": "researcher.researcher_description[].description_multilingual[].value",
+        "default": "",
+        "language": "eng"
+      },
+      {
+        "header": "description_spa",
+        "fieldName": "researcher.researcher_description[].description_multilingual[].value",
+        "default": "",
+        "language": "spa"
+      },
+      {
+        "header": "keyword1_eng",
+        "fieldName": "researcher.researcher_keyword_multilingual[].values",
+        "default": "",
+        "language": "eng"
+      },
+      {
+        "header": "keyword1_spa",
+        "fieldName": "researcher.researcher_keyword_multilingual[].values",
+        "default": "",
+        "language": "spa"
+      },
+      {
+        "header": "keyword1_fre",
+        "fieldName": "researcher.researcher_keyword_multilingual[].values",
+        "default": "",
+        "language": "fre"
+      },
+      {
+        "header": "keyword2_eng",
+        "fieldName": "researcher.researcher_keyword_multilingual[].values",
+        "default": "",
+        "language": "eng"
+      },
+      {
+        "header": "keyword2_spa",
+        "fieldName": "researcher.researcher_keyword_multilingual[].values",
+        "default": "",
+        "language": "spa"
+      },
+      {
+        "header": "cur_int_aff_org_code",
+        "fieldName": "researcher.researcher_organization_affiliation[].organization_code",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "cur_int_aff_start_date",
+        "fieldName": "researcher.researcher_organization_affiliation[].start_date",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "cur_int_aff_end_date",
+        "fieldName": "researcher.researcher_organization_affiliation[].end_date",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "cur_int_aff_position",
+        "fieldName": "researcher.researcher_organization_affiliation[].position.value",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "cur_int_aff_title_eng",
+        "fieldName": "researcher.researcher_organization_affiliation[].title_multilingual[].value",
+        "default": "",
+        "language": "eng"
+      },
+      {
+        "header": "cur_int_aff_title_spa",
+        "fieldName": "researcher.researcher_organization_affiliation[].title_multilingual[].value",
+        "default": "",
+        "language": "spa"
+      },
+      {
+        "header": "cur_int_aff_order",
+        "fieldName": "researcher.researcher_organization_affiliation[].positionOrder",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "prev_int_aff_org_code",
+        "fieldName": "researcher.researcher_previous_organization_affiliation[].organization_code",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "prev_int_aff_start_date",
+        "fieldName": "researcher.researcher_previous_organization_affiliation[].start_date",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "prev_int_aff_end_date",
+        "fieldName": "researcher.researcher_previous_organization_affiliation[].end_date",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "prev_int_aff_position",
+        "fieldName": "researcher.researcher_previous_organization_affiliation[].position.value",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "prev_int_aff_title_eng",
+        "fieldName": "researcher.researcher_previous_organization_affiliation[].title_multilingual[].value",
+        "default": "",
+        "language": "eng"
+      },
+      {
+        "header": "prev_int_aff_title_spa",
+        "fieldName": "researcher.researcher_previous_organization_affiliation[].title_multilingual[].value",
+        "default": "",
+        "language": "spa"
+      },
+      {
+        "header": "prev_int_aff_order",
+        "fieldName": "researcher.researcher_previous_organization_affiliation[].positionOrder",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "cur_ext_aff_org_code",
+        "fieldName": "researcher.researcher_external_organization_affiliation[].organization_code",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "cur_ext_aff_start_date",
+        "fieldName": "researcher.researcher_external_organization_affiliation[].start_date",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "cur_ext_aff_end_date",
+        "fieldName": "researcher.researcher_external_organization_affiliation[].end_date",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "cur_ext_aff_position",
+        "fieldName": "researcher.researcher_external_organization_affiliation[].position.value",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "cur_ext_aff_title_eng",
+        "fieldName": "researcher.researcher_external_organization_affiliation[].title_multilingual[].value",
+        "default": "",
+        "language": "eng"
+      },
+      {
+        "header": "cur_ext_aff_title_fre",
+        "fieldName": "researcher.researcher_external_organization_affiliation[].title_multilingual[].value",
+        "default": "",
+        "language": "fre"
+      },
+      {
+        "header": "cur_ext_aff_order",
+        "fieldName": "researcher.researcher_external_organization_affiliation[].positionOrder",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "prev_ext_aff_org_code",
+        "fieldName": "researcher.researcher_previous_external_organization_affiliation[].organization_code",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "prev_ext_aff_start_date",
+        "fieldName": "researcher.researcher_previous_external_organization_affiliation[].start_date",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "prev_ext_aff_end_date",
+        "fieldName": "researcher.researcher_previous_external_organization_affiliation[].end_date",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "prev_ext_aff_position",
+        "fieldName": "researcher.researcher_previous_external_organization_affiliation[].position.value",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "prev_ext_aff_title_eng",
+        "fieldName": "researcher.researcher_previous_external_organization_affiliation[].title_multilingual[].value",
+        "default": "",
+        "language": "eng"
+      },
+      {
+        "header": "prev_ext_aff_title_fre",
+        "fieldName": "researcher.researcher_previous_external_organization_affiliation[].title_multilingual[].value",
+        "default": "",
+        "language": "fre"
+      },
+      {
+        "header": "prev_ext_aff_order",
+        "fieldName": "researcher.researcher_previous_external_organization_affiliation[].positionOrder",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "education_org_code",
+        "fieldName": "researcher.researcher_education[].organization_code",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "education_degree",
+        "fieldName": "researcher.researcher_education[].degree",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "education_field_of_study_eng",
+        "fieldName": "researcher.researcher_education[].field_of_study_multilingual[].value",
+        "default": "",
+        "language": "eng"
+      },
+      {
+        "header": "education_field_of_study_spa",
+        "fieldName": "researcher.researcher_education[].field_of_study_multilingual[].value",
+        "default": "",
+        "language": "spa"
+      },
+      {
+        "header": "education_from_year",
+        "fieldName": "researcher.researcher_education[].from_year",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "education_to_year",
+        "fieldName": "researcher.researcher_education[].to_year",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "education_add_details_eng",
+        "fieldName": "researcher.researcher_education[].additional_details_multilingual[].value",
+        "default": "",
+        "language": "eng"
+      },
+      {
+        "header": "education_add_details_spa",
+        "fieldName": "researcher.researcher_education[].additional_details_multilingual[].value",
+        "default": "",
+        "language": "spa"
+      },
+      {
+        "header": "education_add_details_fre",
+        "fieldName": "researcher.researcher_education[].additional_details_multilingual[].value",
+        "default": "",
+        "language": "fre"
+      },
+      {
+        "header": "honor_org_code",
+        "fieldName": "researcher.researcher_honor[].organization_code",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "honor_title_eng",
+        "fieldName": "researcher.researcher_honor[].title_multilingual[].value",
+        "default": "",
+        "language": "eng"
+      },
+      {
+        "header": "honor_title_spa",
+        "fieldName": "researcher.researcher_honor[].title_multilingual[].value",
+        "default": "",
+        "language": "spa"
+      },
+      {
+        "header": "honor_title_fre",
+        "fieldName": "researcher.researcher_honor[].title_multilingual[].value",
+        "default": "",
+        "language": "fre"
+      },
+      {
+        "header": "honor_time_period",
+        "fieldName": "researcher.researcher_honor[].time_period",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "webpage_url",
+        "fieldName": "researcher.researcher_webpage[].url",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "webpage_type",
+        "fieldName": "researcher.researcher_webpage[].type",
+        "default": "",
+        "language": ""
+      },
+      {
+        "header": "webpage_title_eng",
+        "fieldName": "researcher.researcher_webpage[].title_multilingual[].value",
+        "default": "",
+        "language": "eng"
+      },
+      {
+        "header": "webpage_title_spa",
+        "fieldName": "researcher.researcher_webpage[].title_multilingual[].value",
+        "default": "",
+        "language": "spa"
+      }
+    ]
+  }
+]

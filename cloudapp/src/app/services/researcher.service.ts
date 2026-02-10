@@ -21,7 +21,7 @@ export class ResearcherService {
     return this.restService.call( {
       url: `/esploro/v1/researchers/${researcher.primary_id}`,
       headers: { 
-        "Content-Type": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
         Accept: "application/json" 
       },
       requestBody: researcher,
@@ -149,18 +149,47 @@ export class ResearcherService {
               const languageFieldName = `${parentBase}[${parentIndex}]${multilingualPath}[${multilingualIndex}].language`;
               mappedFields[languageFieldName] = profileField.language;
             } else {
-              // Pattern without parent array: researcher.display_title_multilingual[].value
-              const simplePattern = fieldName.match(/(.*)(\..*_multilingual)(\[\])(\.value|\.values)/);
-              if (simplePattern) {
-                const basePath = `${simplePattern[1]}${simplePattern[2]}`;
+              // Pattern without parent array - check if it's a values array or simple value field
+              if (fieldName.includes('[].values')) {
+                // Values array field: group multiple entries by language into a single values array
+                // Example: researcher.researcher_keyword_multilingual[].values
+                // Skip if csvValue is empty to allow default values to be applied
+                if (!csvValue) {
+                  return mappedFields;
+                }
+                
+                const valuesPattern = fieldName.match(/(.*)(\..*_multilingual)(\[\])\.values/);
+                const basePath = `${valuesPattern[1]}${valuesPattern[2]}`;
+                const language = profileField.language;
+                
+                // Find existing index for this language, or count existing entries
+                const languageKeys = Object.keys(mappedFields).filter(k => k.startsWith(basePath + '[') && k.endsWith('].language'));
+                const existingKey = languageKeys.find(k => mappedFields[k] === language);
+                const index = existingKey ? parseInt(existingKey.match(/\[(\d+)\]/)[1]) : languageKeys.length;
+                
+                // Initialize if new language
+                if (!existingKey) {
+                  mappedFields[`${basePath}[${index}].language`] = language;
+                  mappedFields[`${basePath}[${index}].values`] = [];
+                }
+                
+                // Add value to the values array
+                mappedFields[`${basePath}[${index}].values`].push(csvValue);
+                
+                return mappedFields; // Skip normal processing
+              } else if (fieldName.includes('[].value')) {
+                // Simple value field: each language creates a separate array entry
+                // Example: researcher.display_title_multilingual[].value
+                const valuePattern = fieldName.match(/(.*)(\..*_multilingual)(\[\])\.value/);
+                const basePath = `${valuePattern[1]}${valuePattern[2]}`;
                 
                 if (multilingualIndices[basePath] === undefined) {
                   multilingualIndices[basePath] = 0;
                 }
                 
                 const multilingualIndex = multilingualIndices[basePath];
-                fieldName = `${simplePattern[1]}${simplePattern[2]}[${multilingualIndex}]${simplePattern[4]}`;
-                const languageFieldName = `${simplePattern[1]}${simplePattern[2]}[${multilingualIndex}].language`;
+                fieldName = `${basePath}[${multilingualIndex}].value`;
+                const languageFieldName = `${basePath}[${multilingualIndex}].language`;
                 mappedFields[languageFieldName] = profileField.language;
                 
                 multilingualIndices[basePath]++;
@@ -188,12 +217,39 @@ export class ResearcherService {
       selectedProfile.fields.filter(field => field.default).forEach(field => {
         occurrences[field.fieldName] = (occurrences[field.fieldName] === undefined ? -1 : occurrences[field.fieldName]) + 1;
         const fname = field.fieldName.replace(/\[\]/g, `[${occurrences[field.fieldName]}]`);
-        if (!researcher[fname]) researcher[fname] = field.default;
+        
+        // Check if this is a multilingual field
+        if (field.fieldName.includes('_multilingual') && field.language) {
+          // Check if it's a values array field or simple value field
+          if (field.fieldName.includes('[].values')) {
+            // Values array field - set language and values as array
+            const baseFieldName = fname.replace(/\.values$/, '');
+            if (!researcher[baseFieldName + '.language']) {
+              researcher[baseFieldName + '.language'] = field.language;
+            }
+            if (!researcher[fname]) {
+              researcher[fname] = [field.default];
+            }
+          } else if (field.fieldName.includes('[].value')) {
+            // Simple value field - set language and value
+            const baseFieldName = fname.replace(/\.value$/, '');
+            if (!researcher[baseFieldName + '.language']) {
+              researcher[baseFieldName + '.language'] = field.language;
+            }
+            if (!researcher[fname]) {
+              researcher[fname] = field.default;
+            }
+          }
+        } else {
+          // Non-multilingual field - use original logic
+          if (!researcher[fname]) researcher[fname] = field.default;
+        }
       });
     };
 
     let mappedResearcher = mapCsvToProfileFields(parsedResearcher, selectedProfile);
     setDefaultValues(mappedResearcher, selectedProfile);
+    
     mappedResearcher = dot.object(mappedResearcher);
 
     return mappedResearcher;
