@@ -37,7 +37,8 @@ export class ProfileComponent implements OnInit {
     'researcher.researcher_education[].field_of_study_multilingual[].value',
     'researcher.researcher_education[].additional_details_multilingual[].value',
     'researcher.researcher_honor[].title_multilingual[].value',
-    'researcher.researcher_webpage[].title_multilingual[].value'
+    'researcher.researcher_webpage[].title_multilingual[].value',
+    'researcher.researcher_webpage[].description_multilingual[].value'
   ];
   
   dataSource: MatTableDataSource<any>;
