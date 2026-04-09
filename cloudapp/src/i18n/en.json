@@ -60,6 +60,7 @@
 		"DefaultPublicationLanguage": "Default Publication Language",
 		"Degree": "Degree",
 		"Description": "Description (Areas of interest)",
+		"DescriptionText": "Description",
 		"DisplayTitle": "Display Title",
 		"EndDate": "End Date",
 		"FieldOfStudy": "Field Of Study",
