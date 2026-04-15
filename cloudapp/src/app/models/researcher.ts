@@ -99,6 +99,7 @@ export interface Researcher {
             type: string;
             title?: string;
             title_multilingual?: MultilingualField[];
+            description?: string;
             description_multilingual?: MultilingualField[];
         }[];
         researcher_organization_affiliation?: OrganizationAffiliation[];

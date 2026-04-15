@@ -140,6 +140,7 @@ export class EsploroFields {
         { name: 'webPages.type', key: 'researcher.researcher_webpage[].type', label: 'FieldNames.Type' },
         { name: 'webPages.title', key: 'researcher.researcher_webpage[].title', label: 'FieldNames.Title' },
         { name: 'webPages.titleMultilingual', key: 'researcher.researcher_webpage[].title_multilingual[].value', label: 'FieldNames.Title' },
+		{ name: 'webPages.description', key: 'researcher.researcher_webpage[].description', label: 'FieldNames.DescriptionText' },
 		{ name: 'webPages.descriptionMultilingual', key: 'researcher.researcher_webpage[].description_multilingual[].value', label: 'FieldNames.DescriptionText' },
       ]
     },
